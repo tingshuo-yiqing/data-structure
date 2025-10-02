@@ -1,5 +1,10 @@
-#ifndef LIST_H
-#define LIST_H
+// 头文件保护宏
+#ifndef DATASTRUCT_LIST
+#define DATASTRUCT_LIST 
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
 
 // 节点定义
 typedef struct Node {
@@ -7,10 +12,34 @@ typedef struct Node {
     struct Node* next;
 } Node;
 
-// 链表操作函数
-Node* createList();              // 创建空链表
-void insertNode(Node** head, int value); // 头插法
-void printList(Node* head);      // 打印链表
-void freeList(Node* head);       // 释放内存
+Node* createNode(int val);
+
+void freeList(Node* head);
+
+int getListSize(Node* head);
+
+Node* getTailNode(Node* head);
+
+void insertHeadNode(Node** head, int val);
+
+void insertTailNode(Node** head, int val);
+
+bool insertIndexNode(Node** head, int index, int val);
+
+bool deleteIndexNode(Node** head, int index);
+
+Node* findNode(Node** head, int val);
+
+Node* copyList(Node* head);
+
+void printList(Node* head);
+
+Node* arrayToList(int arr[], int n);
+
+void reverseList(Node** head);
+
+Node* mergeSortedList(Node* left, Node* right);
+
+Node* sortList(Node* head);
 
 #endif

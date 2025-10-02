@@ -1,14 +1,16 @@
 #include "list.h"
 
 int main() {
-    Node* head = createList();
 
-    for (int i = 1; i <= 5; i++) {
-        insertNode(&head, i);
-    }
+    Node* head1 = NULL;
+    Node* head2 = NULL;
 
-    printList(head); // 输出: 5 -> 4 -> 3 -> 2 -> 1 -> NULL
+    int a[] = {120, 34, 45, 64, 74};
 
-    freeList(head);
+    head1 = arrayToList(a, 5);
+    head2 = copyList(head1);
+    
+    printList(head1);
+    printList(head2);
     return 0;
 }

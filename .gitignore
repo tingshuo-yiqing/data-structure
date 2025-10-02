@@ -1,0 +1,30 @@
+# 忽略编译生成的文件
+*.o
+*.exe
+*.out
+*.obj
+*.a
+*.so
+*.dll
+
+# 忽略构建目录
+/build/
+bin/
+obj/
+
+# 忽略临时文件
+*.tmp
+*.log
+*.swp
+*.bak
+*.dSYM/
+
+# 忽略 IDE 配置文件
+.vscode/
+.idea/
+*.code-workspace
+
+# 忽略操作系统生成的文件
+.DS_Store
+Thumbs.db
+desktop.ini
