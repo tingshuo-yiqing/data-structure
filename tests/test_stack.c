@@ -4,6 +4,6 @@
 int main() {
     stack* st = initStack();
 
-    printf("%d", isStackEmpty(st));
+    printf("%d\n", isStackEmpty(st));
     return 0;
 }
