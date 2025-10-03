@@ -5,8 +5,8 @@
 stack* initStack() {
     stack* ret = (stack*)malloc(sizeof(stack));
     //! 直接赋值给结构体成员
-    ret->data = (int*)malloc(sizeof(int) * CAPACITY);    
-    ret->mindata = (int*)malloc(sizeof(int) * CAPACITY);    
+    ret->data = (eletype*)malloc(sizeof(eletype) * CAPACITY);    
+    ret->mindata = (eletype*)malloc(sizeof(eletype) * CAPACITY);    
     ret->top = -1;
     ret->mintop = -1;
     return ret;
@@ -26,28 +26,40 @@ bool isStackEmpty(stack* st) {
     return st->top == -1;
 }
 
-
-int getStackMinVal(stack* st) {
+eletype getStackMinVal(stack* st) {
     return st->mindata[st->mintop];
 }
 
 
-void pushStack(stack* st, int val) {
+void pushStack(stack* st, eletype val) {
     st->data[++(st->top)] = val;
-    if (isStackEmpty(st) || val <= st->mindata[st->mintop]) {
-        st->mindata[++(st->mintop)] = val;
+    if (st->mintop == -1 || val <= st->mindata[st->mintop]) {
+        st->mindata[++st->mintop] = val;
     } else {
         //! 拆开来写更清晰
-        st->mintop++;
-        st->mindata[st->mintop] = st->mindata[st->mintop - 1];
+        st->mintop++;                       // 先自增
+        st->mindata[st->mintop] = st->mindata[st->mintop - 1];  // 再赋值
     }
 }
 
 
-int topStack(stack* st) {
+eletype topStack(stack* st) {
     return st->data[st->top];
 }
 
-int popStack(stack* st) {
+eletype popStack(stack* st) {
+    if (isStackEmpty(st)) return 0;
+    // mindata也需要--
+    st->mintop--;
     return st->data[--(st->top)];
+}
+
+
+void clearStack(stack* st) {
+    // while (!isStackEmpty(st)) {
+    //     popStack(st);
+    // }
+    // 因为没有释放内存所以直接把top和mintop置为-1即可
+    st->top = -1;
+    st->mintop = -1;
 }

@@ -5,10 +5,12 @@
 #include<stdlib.h>
 #include<stdbool.h>
 
+typedef int eletype;
+
 
 typedef struct stack {
-    int* data;
-    int* mindata;
+    eletype* data;
+    eletype* mindata;
     int top;
     int mintop;
 } stack;
@@ -17,13 +19,16 @@ stack* initStack();
 
 void freeStack(stack* st);
 
-int getStackMinVal(stack* st);
+eletype getStackMinVal(stack* st);
 
 bool isStackEmpty(stack* st);
 
-void pushStack(stack* st, int val);
+void pushStack(stack* st, eletype val);
 
-int topStack(stack* st);
+eletype topStack(stack* st);
 
-int popStack(stack* st);
+eletype popStack(stack* st);
+
+void clearStack(stack* st);
+
 #endif
