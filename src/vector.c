@@ -33,13 +33,16 @@ int getVectorSize(vector* vec) {
     if (vec) {
         return vec->size;
     }
+    return -1;
 }
 
 int getVectorCapacity(vector* vec) {
     if (vec) {
         return vec->capacity;
     }
+    return -1;
 }
+
 
 int getIndexVectorVal(vector* vec, int index) {
     if (index < 0 || index >= vec->size) {
@@ -57,6 +60,11 @@ int findVectorVal(vector* vec, int val) {
         }
     }
     return -1;
+}
+
+
+bool isVectorEmpty(vector* vec) {
+    return vec->size == 0;
 }
 
 

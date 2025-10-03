@@ -15,6 +15,8 @@ vector* initVector();
 
 void resizeVector(vector* vec);
 
+bool isVectorEmpty(vector* vec);
+
 int getVectorSize(vector* vec);
 
 int getVectorCapacity(vector* vec);
