@@ -1,10 +1,10 @@
 #include "queue.h"
 
-#define CAPACITY 100001
+#define CAPACITY 200010
 
 queue* initQueue() {
     queue* ret = (queue*)malloc(sizeof(queue));
-    ret->data = (eletype*)malloc(sizeof(eletype) * CAPACITY);
+    ret->data = (queue_eletype*)malloc(sizeof(queue_eletype) * CAPACITY);
     ret->left = 0;
     ret->right = 0;
     return ret;
@@ -13,7 +13,9 @@ queue* initQueue() {
 
 void freeQueue(queue* que) {
     free(que->data);
+    que->data = NULL;
     free(que);
+    que = NULL;
 }
 
 
@@ -27,28 +29,31 @@ bool isQueueEmpty(queue* que) {
 }
 
 
-void pushQueue(queue* que, eletype val) {
+void pushQueue(queue* que, queue_eletype val) {
     que->data[que->right++] = val;
 }
 
-eletype popQueue(queue* que) {
+queue_eletype popQueue(queue* que) {
     return que->data[que->left++];
 }
 
 
-eletype headQueue(queue* que) {
+queue_eletype headQueue(queue* que) {
     return que->data[que->left];
 }
 
 
-eletype tailQueue(queue* que) {
+queue_eletype tailQueue(queue* que) {
     return que->data[que->right - 1];
 }
 
+//todo 循环队列设计
+// https://leetcode.cn/problems/design-circular-queue/description/
 
 cqueue* initCQueue(int k) {
+    if (k <= 0) return NULL;
     cqueue* ret = (cqueue*)malloc(sizeof(cqueue));
-    ret->data = (eletype*)malloc(sizeof(eletype) * k);
+    ret->data = (cqueue_eletype*)malloc(sizeof(cqueue_eletype) * k);
     ret->left = 0;
     ret->right = 0;
     ret->size = 0;
@@ -59,7 +64,9 @@ cqueue* initCQueue(int k) {
 
 void freeCQueue(cqueue* cque) {
     free(cque->data);
+    cque->data = NULL;
     free(cque);
+    cque = NULL;
 }
 
 
@@ -78,7 +85,7 @@ bool isCQueueFull(cqueue* cque) {
 }
 
 
-bool enCQueue(cqueue* cque, eletype val) {
+bool enCQueue(cqueue* cque, cqueue_eletype val) {
     if (isCQueueFull(cque)) return false;
     else {
         cque->data[cque->right] = val;
@@ -99,7 +106,7 @@ bool deCQueue(cqueue* cque) {
 }
 
 
-eletype getHeadCQueue(cqueue* cque) {
+cqueue_eletype getHeadCQueue(cqueue* cque) {
     if (isCQueueEmpty(cque)) return -1;
     else {
         return cque->data[cque->left];
@@ -107,7 +114,7 @@ eletype getHeadCQueue(cqueue* cque) {
 }
 
 
-eletype getTailCQueue(cqueue* cque) {
+cqueue_eletype getTailCQueue(cqueue* cque) {
     if (isCQueueEmpty(cque)) return -1;
     //! 队尾看 right-1 的位置
     else {
