@@ -22,6 +22,9 @@ TEST_DIR = tests
 SRC_FILES = $(filter-out $(SRC_DIR)/main.c, $(wildcard $(SRC_DIR)/*.c))
 OBJ_FILES = $(patsubst $(SRC_DIR)/%.c,$(BUILD_OBJ_DIR)/%.o,$(SRC_FILES))
 
+# memmgr 作为公共模块，所有使用内存分配的目标都需要链接
+MEMMGR_OBJ = $(BUILD_OBJ_DIR)/memmgr.o
+
 TEST_SRCS = $(wildcard $(TEST_DIR)/*.c)
 TEST_BINS = $(patsubst $(TEST_DIR)/%.c,$(BUILD_BIN_DIR)/test_%,$(TEST_SRCS))
 
@@ -78,8 +81,9 @@ $(BUILD_BIN_DIR)/test_queue: $(TEST_DIR)/test_queue.c $(BUILD_OBJ_DIR)/queue.o |
 	$(CC) $(CFLAGS) -o $@ $^
 
 test_tree: $(BUILD_BIN_DIR)/test_tree
-$(BUILD_BIN_DIR)/test_tree: $(TEST_DIR)/test_tree.c $(BUILD_OBJ_DIR)/tree.o $(BUILD_OBJ_DIR)/queue.o | $(BUILD_BIN_DIR)
+$(BUILD_BIN_DIR)/test_tree: $(TEST_DIR)/test_tree.c $(BUILD_OBJ_DIR)/tree.o $(BUILD_OBJ_DIR)/queue.o $(BUILD_OBJ_DIR)/memmgr.o | $(BUILD_BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $^
+
 
 # ===============================
 # 通用对象文件规则
@@ -133,4 +137,4 @@ help:
 	@echo "  help          - 显示此帮助信息"
 
 .PHONY: all debug release run test clean distclean install help \
-        test_stack test_queue test_tree
+        test_stack test_queue test_tree test_memmgr

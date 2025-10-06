@@ -3,7 +3,7 @@
 
 #include "queue.h"
 
-#define NULL_MARKER -1  // 空节点标记
+#define NULL_MARKER -1  // 序列化和反序列化时用于空节点标记
 #define tree_eletype int
 
 typedef struct TreeNode {
@@ -13,10 +13,17 @@ typedef struct TreeNode {
 } TreeNode;
 
 /**
- * @brief 
+ * @brief Create a binary tree node with the value of val
+ * @param val tree_eleetype 
  */
-TreeNode* creatTreeNode(tree_eletype val);
+TreeNode* createTreeNode(tree_eletype val);
 
+
+/**
+ * @brief Recursive release of binary tree nodes
+ * @param root Root node
+ */
+void freeBTree(TreeNode* root);
 
 /**
  * @brief Level-order printing of binary tree nodes
@@ -26,20 +33,58 @@ void levelOrderBTree(TreeNode* root);
 
 
 /**
- * @brief
- * @param
+ * @brief PreOrder print binary tree node
+ * @param root Root node
  */
 void preOrderBTree(TreeNode* root);
 
 
+/**
+ * @brief InOrder print binary tree node
+ * @param root Root node
+ */
 void inOrderBTree(TreeNode* root);
 
 
+/**
+ * @brief PostOrder print binary tree node
+ * @param root Root node
+ */
 void postOrderBTree(TreeNode* root);
 
 
-tree_eletype* serializeBTree(TreeNode* root);
+/**
+ * @brief Recursive calculation of the number of nodes in a binary tree
+ * @param root Root node
+ * @return The node size of binary tree
+ */
+int getBTreeNodes(TreeNode* root); 
 
+
+/**
+ * @brief Determine whether two binary trees are the same
+ * @param p Root node one
+ * @param q Root node two
+ * @return true if trees are identical, false otherwise
+ */
+bool isSameBTree(TreeNode* p, TreeNode* q);
+
+
+/**
+ * @brief Implement binary tree level-order serialization
+ * @param root Root node
+ * @param serializeSize [out] Output parameter, return the size of the serialized array
+ * @return The pointer to the serialized array
+ */
+tree_eletype* serializeBTree(TreeNode* root, int* serializeSize);
+
+
+/**
+ * @brief Reconstruct binary tree from level-order serialized data
+ * @param data Array containing level-order traversal with NULL_MARKER for null nodes
+ * @param dataSize Size of the data array
+ * @return Root node of the reconstructed binary tree
+ */
 TreeNode* deserializeBTree(tree_eletype* data, size_t dataSize);
 
 

@@ -2,6 +2,6 @@
 
 
 int main() {
-    printf("ijwfioreawfvn\n");
+    printf("测试字符串\n");
     return 0;
 }
