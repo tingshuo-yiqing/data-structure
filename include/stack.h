@@ -1,6 +1,10 @@
 #ifndef DATASRUCT_SYACK
 #define DATASRUCT_SYACK
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdbool.h>
@@ -34,5 +38,9 @@ eletype topStack(stack* st);
 eletype popStack(stack* st);
 
 void clearStack(stack* st);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

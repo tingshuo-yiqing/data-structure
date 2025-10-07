@@ -2,6 +2,10 @@
 #ifndef DATASTRUCT_LIST
 #define DATASTRUCT_LIST 
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -41,5 +45,9 @@ void reverseList(Node** head);
 Node* mergeSortedList(Node* left, Node* right);
 
 Node* sortList(Node* head);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

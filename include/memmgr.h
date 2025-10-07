@@ -1,6 +1,10 @@
 #ifndef MEMMGR_H
 #define MEMMGR_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -15,5 +19,9 @@ void  xfree_debug(void* ptr, const char* file, int line);
     xfree_debug(ptr, __FILE__, __LINE__); \
     (ptr) = NULL; \
 } while(0)
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

@@ -1,11 +1,8 @@
 #include "list.h"
+#include "memmgr.h"
 
 Node* createNode(int val) {
-    Node* new_node = (Node*)malloc(sizeof(Node));
-    if (new_node == NULL) {
-        fprintf(stderr, "Error: Memory allocation failed\n");
-        return NULL;
-    }
+    Node* new_node = XMALLOC(sizeof(Node));
     new_node->data = val;
     new_node->next = NULL;
     return new_node;
@@ -17,8 +14,7 @@ void freeList(Node* head) {
     while (cur) {
         Node* temp = cur;
         cur = cur->next;
-        free(temp);
-        temp = NULL;
+        XFREE(temp);
     }
 }
 
@@ -96,7 +92,7 @@ bool deleteIndexNode(Node** head, int index) {
     if (index == 0) {
         Node* temp = *head;
         *head = (*head)->next;
-        free(temp);
+        XFREE(temp);
         return true;
     }
     Node* cur = *head;
@@ -105,7 +101,7 @@ bool deleteIndexNode(Node** head, int index) {
     }
     Node* temp = cur->next;
     cur->next = temp->next;
-    free(temp);
+    XFREE(temp);
     return true;
 }
 
@@ -208,4 +204,3 @@ Node* sortList(Node* head) {
     // 递归合并
     return mergeSortedList(sortList(first), sortList(second));
 }
-

@@ -1,6 +1,10 @@
 #ifndef DATASTRUCT_QUEUE
 #define DATASTRUCT_QUEUE
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdbool.h>
@@ -142,5 +146,9 @@ cqueue_eletype getHeadCQueue(cqueue* cque);
  * @return Rear element of the circular queue
  */
 cqueue_eletype getTailCQueue(cqueue* cque);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

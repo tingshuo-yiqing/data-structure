@@ -1,6 +1,10 @@
 #ifndef DATASTRUCT_TREE
 #define DATASTRUCT_TREE
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "queue.h"
 
 #define NULL_MARKER -1  // 序列化和反序列化时用于空节点标记
@@ -87,5 +91,8 @@ tree_eletype* serializeBTree(TreeNode* root, int* serializeSize);
  */
 TreeNode* deserializeBTree(tree_eletype* data, size_t dataSize);
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif

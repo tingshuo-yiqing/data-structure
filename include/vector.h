@@ -1,6 +1,10 @@
 #ifndef DATASTRUCT_VECTOR
 #define DATASTRUCT_VECTOR
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdbool.h>
@@ -32,5 +36,9 @@ void insertTailVectorVal(vector* vec, int val);
 bool deleteVectorVal(vector* vec, int index);
 
 void deleteTailVectorVal(vector* vec);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

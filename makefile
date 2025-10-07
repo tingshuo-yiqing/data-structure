@@ -72,6 +72,11 @@ $(BUILD_BIN_DIR)/test_%: $(TEST_DIR)/%.c $(OBJ_FILES) | $(BUILD_BIN_DIR)
 # ===============================
 # 分模块测试目标（仅编译相关模块）
 # ===============================
+
+test_list: $(BUILD_BIN_DIR)/test_list
+$(BUILD_BIN_DIR)/test_list: $(TEST_DIR)/test_list.c $(BUILD_OBJ_DIR)/list.o $(BUILD_OBJ_DIR)/memmgr.o | $(BUILD_BIN_DIR)
+	$(CC) $(CFLAGS) -o $@ $^
+
 test_stack: $(BUILD_BIN_DIR)/test_stack
 $(BUILD_BIN_DIR)/test_stack: $(TEST_DIR)/test_stack.c $(BUILD_OBJ_DIR)/stack.o | $(BUILD_BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $^
@@ -82,6 +87,10 @@ $(BUILD_BIN_DIR)/test_queue: $(TEST_DIR)/test_queue.c $(BUILD_OBJ_DIR)/queue.o |
 
 test_tree: $(BUILD_BIN_DIR)/test_tree
 $(BUILD_BIN_DIR)/test_tree: $(TEST_DIR)/test_tree.c $(BUILD_OBJ_DIR)/tree.o $(BUILD_OBJ_DIR)/queue.o $(BUILD_OBJ_DIR)/memmgr.o | $(BUILD_BIN_DIR)
+	$(CC) $(CFLAGS) -o $@ $^
+
+test_memmgr: $(BUILD_BIN_DIR)/test_memmgr
+$(BUILD_BIN_DIR)/test_memmgr: $(TEST_DIR)/test_memmgr.c $(BUILD_OBJ_DIR)/memmgr.o | $(BUILD_BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $^
 
 

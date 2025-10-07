@@ -1,10 +1,14 @@
 #include "tree.h"
 
 int main() {
-    tree_eletype nums[] = {1, 2, 3, -1, -1, 4, 5};
+    tree_eletype nums[] = {1, 2, 5, 3, 4, -1, 6};
     size_t numsSize = sizeof(nums) / sizeof(nums[0]);
+    
+    // tree_eletype foo_arr[] = {1};
+    // size_t foo_arr_size = sizeof(foo_arr) / sizeof(foo_arr[0]);
 
     TreeNode* root = deserializeBTree(nums, numsSize);
+    // TreeNode* foo = deserializeBTree(foo_arr, foo_arr_size);
 
     printf("======四序遍历======\n");
     printf("先序: ");
