@@ -9,6 +9,7 @@ extern "C" {
 #include<stdlib.h>
 #include<stdbool.h>
 #include<string.h>
+#include <limits.h>
 
 typedef struct TreeNode TreeNode;  // 前向声明
 #define queue_eletype TreeNode*

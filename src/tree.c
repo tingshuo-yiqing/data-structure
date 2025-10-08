@@ -1,5 +1,6 @@
 #include "tree.h"
 #include "memmgr.h"
+#include "myfunction.h"
 
 TreeNode* createTreeNode(tree_eletype val) {
     TreeNode* ret = XMALLOC(sizeof(TreeNode));
@@ -34,6 +35,7 @@ void levelOrderBTree(TreeNode* root) {
             pushQueue(q, node->right);
         }
     }
+    printf("\n");
 }
 
 
@@ -143,5 +145,136 @@ TreeNode* deserializeBTree(tree_eletype* data, size_t dataSize) {
         index++;
     }
     freeQueue(q);
+    return root;
+}
+
+
+
+TreeNode* getBTreeRightChild(TreeNode* root, TreeNode* e) {
+    if (!root) return NULL;
+    if (e->right) 
+        return e->right;
+    return NULL;
+}
+
+
+TreeNode* getBTreeLeftChild(TreeNode* root, TreeNode* e) {
+    if (!root) return NULL;
+    if (e->left) 
+        return e->left;
+    return NULL;
+}
+
+
+int maxDepthBTree(TreeNode* root) {
+    // https://leetcode.cn/problems/maximum-depth-of-binary-tree/
+    if (!root) return 0;
+    return MAX(maxDepthBTree(root->left), maxDepthBTree(root->right)) + 1;
+}
+
+
+int minDepthBTree(TreeNode* root) {
+    // https://leetcode.cn/problems/minimum-depth-of-binary-tree/description/?envType=problem-list-v2&envId=binary-tree
+    if (!root) return 0;
+    if (!root->left) 
+        return minDepthBTree(root->right) + 1;
+    if (!root->right) 
+        return minDepthBTree(root->left) + 1;
+    return MIN(minDepthBTree(root->left), minDepthBTree(root->right)) + 1;
+}
+
+
+TreeNode* invertBTree(TreeNode* root) {
+    // https://leetcode.cn/problems/invert-binary-tree/
+    if (!root) return NULL;
+
+    queue* q = initQueue();
+    pushQueue(q, root);
+
+    while (!isQueueEmpty(q)) {
+        TreeNode* node = popQueue(q);
+        SWAP(node->left, node->right);
+        if (node->left) {
+            pushQueue(q, node->left);
+        }
+        if (node->right) {
+            pushQueue(q, node->right);
+        }
+    }
+    freeQueue(q);
+    return root;
+}
+
+
+/* BST API */
+
+
+TreeNode* insertBSTnode(TreeNode* root, tree_eletype val) {
+    if (!root)
+        return createTreeNode(val);
+    
+    if (val < root->val)
+        root->left = insertBSTnode(root->left, val);
+    if (val > root->val)
+        root->right = insertBSTnode(root->right, val);
+    
+    return root;
+}
+
+
+TreeNode* searchBSTval(TreeNode* root, tree_eletype val) {
+    // https://leetcode.cn/problems/search-in-a-binary-search-tree/
+    if (!root) return NULL;
+
+    if (val < root->val)
+        return searchBSTval(root->left, val);
+    else if (val > root->val)
+        return searchBSTval(root->right, val);
+    else
+        return root;
+}
+
+
+TreeNode* getBSTminNode(TreeNode* root) {
+    // value propagation
+    while (root->left) {
+        root = root->left;
+    } 
+    return root;
+}
+
+
+TreeNode* getBSTmaxNode(TreeNode* root) {
+    while (root->right) {
+        root = root->right;
+    } 
+    return root;
+}
+
+
+TreeNode* deleteBSTnode(TreeNode* root, tree_eletype val) {
+    // https://leetcode.cn/problems/delete-node-in-a-bst/description/
+    if (!root) return NULL;
+    // search val
+    if (val < root->val)
+        root->left = deleteBSTnode(root->left, val);
+    else if (val > root->val)
+        root->right = deleteBSTnode(root->right, val);
+    else {
+        // delete val
+        if (!root->left) {
+            TreeNode* r = root->right;
+            XFREE(root);
+            return r;
+        }
+        if (!root->right) {
+            TreeNode* l = root->left;
+            XFREE(root);
+            return l;
+        }   
+        TreeNode* minNode = getBSTminNode(root->right);
+        root->val = minNode->val;
+        root->right = deleteBSTnode(root->right, minNode->val);
+    }
     return root;
 }

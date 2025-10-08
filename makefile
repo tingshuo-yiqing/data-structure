@@ -89,6 +89,10 @@ test_tree: $(BUILD_BIN_DIR)/test_tree
 $(BUILD_BIN_DIR)/test_tree: $(TEST_DIR)/test_tree.c $(BUILD_OBJ_DIR)/tree.o $(BUILD_OBJ_DIR)/queue.o $(BUILD_OBJ_DIR)/memmgr.o | $(BUILD_BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $^
 
+test_myfunction: $(BUILD_BIN_DIR)/test_myfunction
+$(BUILD_BIN_DIR)/test_myfunction: $(TEST_DIR)/test_myfunction.c $(BUILD_OBJ_DIR)/myfunction.o | $(BUILD_BIN_DIR)
+	$(CC) $(CFLAGS) -o $@ $^
+
 test_memmgr: $(BUILD_BIN_DIR)/test_memmgr
 $(BUILD_BIN_DIR)/test_memmgr: $(TEST_DIR)/test_memmgr.c $(BUILD_OBJ_DIR)/memmgr.o | $(BUILD_BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $^

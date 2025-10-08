@@ -29,6 +29,7 @@ TreeNode* createTreeNode(tree_eletype val);
  */
 void freeBTree(TreeNode* root);
 
+
 /**
  * @brief Level-order printing of binary tree nodes
  * @param root Root node
@@ -90,6 +91,67 @@ tree_eletype* serializeBTree(TreeNode* root, int* serializeSize);
  * @return Root node of the reconstructed binary tree
  */
 TreeNode* deserializeBTree(tree_eletype* data, size_t dataSize);
+
+
+/**
+ * @brief 
+ */
+TreeNode* getBTreeRightChild(TreeNode* root, TreeNode* e);
+
+
+TreeNode* getBTreeLeftChild(TreeNode* root, TreeNode* e);
+
+
+/**
+ * @brief Find the maximum depth of a binary tree
+ * @param root Root node
+ */
+int maxDepthBTree(TreeNode* root);
+
+
+/**
+ * @brief Find the minimum depth of a binary tree
+ * @param root Root node
+ */
+int minDepthBTree(TreeNode* root);
+
+
+TreeNode* invertBTree(TreeNode* root);
+
+
+/* binary search tree (BST) */
+
+/**
+ * @brief
+ * @param
+ * @param
+ * @return 
+ */
+TreeNode* insertBSTnode(TreeNode* root, tree_eletype val);
+
+
+TreeNode* searchBSTval(TreeNode* root, tree_eletype val);
+
+
+/**
+ * @brief Get the node with the minimum value in the BST
+ * @param root Root node
+ * @return Pointer to the node with the maximum value, or NULL if tree is empty
+ * @note Check if it is NULL before use
+ */
+TreeNode* getBSTminNode(TreeNode* root);
+
+
+/**
+ * @brief Get the node with the maximum value in the BST
+ * @param root Root node
+ * @return Pointer to the node with the maximum value, or NULL if tree is empty
+ * @note Check if it is NULL before use
+ */
+TreeNode* getBSTmaxNode(TreeNode* root);
+
+
+TreeNode* deleteBSTnode(TreeNode* root, tree_eletype val);
 
 #ifdef __cplusplus
 }
