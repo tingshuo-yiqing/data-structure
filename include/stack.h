@@ -1,42 +1,71 @@
-#ifndef DATASRUCT_SYACK
-#define DATASRUCT_SYACK
+#ifndef DATASTRUCT_STACK
+#define DATASTRUCT_STACK
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include<stdio.h>
-#include<stdlib.h>
-#include<stdbool.h>
-#include<string.h>
-#include<ctype.h>
+#include <stdbool.h>
 
-typedef int eletype;
-
+#define stack_eletype int
 
 typedef struct stack {
-    eletype* data;
-    eletype* mindata;
+    stack_eletype* data;
     int top;
-    int mintop;
+    int capacity;
 } stack;
 
+/**
+ * @brief Initialize a stack with default capacity
+ * @return Pointer to the initialized stack
+ */
 stack* initStack();
 
+/**
+ * @brief Free the stack and its data
+ * @param st Stack to free
+ */
 void freeStack(stack* st);
 
+/**
+ * @brief Get the current size of the stack
+ * @param st Stack to check
+ * @return Size of the stack
+ */
 int getStackSize(stack* st);
 
-eletype getStackMinVal(stack* st);
-
+/**
+ * @brief Check if the stack is empty
+ * @param st Stack to check
+ * @return true if stack is empty, false otherwise
+ */
 bool isStackEmpty(stack* st);
 
-void pushStack(stack* st, eletype val);
+/**
+ * @brief Push a value onto the stack
+ * @param st Stack to push to
+ * @param val Value to push
+ */
+void pushStack(stack* st, stack_eletype val);
 
-eletype topStack(stack* st);
+/**
+ * @brief Get the top value of the stack without popping
+ * @param st Stack to check
+ * @return Top value of the stack
+ */
+stack_eletype topStack(stack* st);
 
-eletype popStack(stack* st);
+/**
+ * @brief Pop the top value from the stack
+ * @param st Stack to pop from
+ * @return Popped value from the stack
+ */
+stack_eletype popStack(stack* st);
 
+/**
+ * @brief Clear all elements from the stack
+ * @param st Stack to clear
+ */
 void clearStack(stack* st);
 
 #ifdef __cplusplus

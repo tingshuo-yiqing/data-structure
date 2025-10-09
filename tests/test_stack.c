@@ -1,4 +1,9 @@
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+
 #include "stack.h"
+
 
 int evalPostfix(char** token, int len) {
     stack* st = initStack();
@@ -40,7 +45,7 @@ int main() {
     }
 
     while (!isStackEmpty(st)) {
-        printf("此时栈顶为%d 栈中最小值为%d\n 栈中元素个数为%d\n", topStack(st), getStackMinVal(st), getStackSize(st));
+        printf("此时栈顶为%d 栈中元素个数为%d\n", topStack(st), getStackSize(st));
         popStack(st);
     }
 

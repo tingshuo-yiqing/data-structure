@@ -68,8 +68,6 @@ int main() {
     printf("testroot的最大值为%d\n", max_node->val);
     else
     printf("这是一颗空树\n");
-    printf("======BST的删除操作======\n");
-
     
     printf("======二叉树的翻转操作======\n");
     tree_eletype test1[] = {20, 10, 50, 8, 15, 42, 60, -1, -1, -1, -1, 32};

@@ -1,28 +1,25 @@
 #include "vector.h"
+#include "memmgr.h"
+#include <stdio.h>
 
-#define CAPACITY 4
-
-
-// 初始化需要分配两个空间
 vector* initVector() {
-    vector* ret = (vector*)malloc(sizeof(vector));
+    vector* ret = XMALLOC(sizeof(vector));
     ret->size = 0;
     ret->capacity = CAPACITY;
-    ret->data = (int*)malloc(CAPACITY * sizeof(int));
+    ret->data = XMALLOC(CAPACITY * sizeof(vector_eletype));
     return ret;
 }
 
 
-// 2倍扩容
 void resizeVector(vector* vec) {
     if (vec->size >= vec->capacity) {
         int new_capacity = 2 * vec->capacity;
-        int* new_data = (int*)malloc(sizeof(int) * new_capacity);
+        vector_eletype* new_data = XMALLOC(sizeof(vector_eletype) * new_capacity);
 
         for (int i = 0; i < vec->size; ++i) {
             new_data[i] = vec->data[i];
         }
-        free(vec->data);
+        XFREE(vec->data);
         vec->data = new_data;
         vec->capacity = new_capacity; 
     }
@@ -36,6 +33,7 @@ int getVectorSize(vector* vec) {
     return -1;
 }
 
+
 int getVectorCapacity(vector* vec) {
     if (vec) {
         return vec->capacity;
@@ -44,7 +42,7 @@ int getVectorCapacity(vector* vec) {
 }
 
 
-int getIndexVectorVal(vector* vec, int index) {
+vector_eletype getIndexVectorVal(vector* vec, int index) {
     if (index < 0 || index >= vec->size) {
         printf("out of vector range\n");
     }
@@ -52,8 +50,7 @@ int getIndexVectorVal(vector* vec, int index) {
 }
 
 
-// O(n)查找顺序表元素
-int findVectorVal(vector* vec, int val) {
+int findVectorVal(vector* vec, vector_eletype val) {
     for (int i = 0; i < vec->size; ++i) {
         if (vec->data[i] == val) {
             return i;
@@ -68,8 +65,7 @@ bool isVectorEmpty(vector* vec) {
 }
 
 
-// O(n)索引插入
-bool insertVectorVal(vector* vec, int index, int val) {
+bool insertVectorVal(vector* vec, int index, vector_eletype val) {
     if (index < 0 || index > vec->size) {
         return false;
     }
@@ -83,13 +79,12 @@ bool insertVectorVal(vector* vec, int index, int val) {
 }
 
 
-// O(1)尾插push_back
-void insertTailVectorVal(vector* vec, int val) {
+void insertTailVectorVal(vector* vec, vector_eletype val) {
     resizeVector(vec);
     vec->data[vec->size++] = val;
 }
 
-// O(n)索引删除
+
 bool deleteVectorVal(vector* vec, int index) {
     if (index < 0 || index >= vec->size) {
         return false;
@@ -102,10 +97,8 @@ bool deleteVectorVal(vector* vec, int index) {
 }
 
 
-// O(1)尾删pop_back
 void deleteTailVectorVal(vector* vec) {
     if (vec->size > 0) {
         vec->size--;
     }
 }
-

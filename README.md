@@ -2,34 +2,6 @@
 
 这是一个用C语言实现的数据结构与算法学习项目，包含了常见数据结构的实现、测试用例以及学习笔记。
 
-## 📁 项目目录结构
-
-```
-DataStruct/
-├── 📁 Chapter/                    # 学习笔记章节
-│   ├── 📁 chapter1/               # 第一章
-│   │   ├── 📁 code/               # 示例代码
-│   │   └── 📁 note/               # 学习笔记
-│   └── ...                        # 更多章节
-├── 📁 include/                    # 头文件目录
-│   ├── list.h                     # 链表数据结构
-│   └── myfunction.h               # 通用工具函数
-|   
-├── 📁 src/                        # 源代码目录
-│   ├── list.c                     # 链表实现
-│   | main.c                     # 主程序入口
-├── 📁 tests/                      # 测试文件目录
-│   ├── test_list.c                # 链表测试
-│   |
-├── 📁 Misc/                       # 杂项学习资料
-│   ├── 📁 C_learn/                # C语言学习
-│   ├── 📁 git_learn/              # Git学习
-│   └── 📁 json_learn/             # JSON学习
-├── 📁 build/                      # 构建输出目录
-├── makefile                       # 构建配置文件
-├── .gitignore                     # Git忽略文件
-└── README.md                      # 项目说明文档
-```
 
 ### 构建命令
 ```bash

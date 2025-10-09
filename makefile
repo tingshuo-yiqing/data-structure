@@ -73,12 +73,16 @@ $(BUILD_BIN_DIR)/test_%: $(TEST_DIR)/%.c $(OBJ_FILES) | $(BUILD_BIN_DIR)
 # 分模块测试目标（仅编译相关模块）
 # ===============================
 
+test_vector: $(BUILD_BIN_DIR)/test_vector
+$(BUILD_BIN_DIR)/test_vector: $(TEST_DIR)/test_vector.c $(BUILD_OBJ_DIR)/vector.o $(BUILD_OBJ_DIR)/memmgr.o | $(BUILD_BIN_DIR)
+	$(CC) $(CFLAGS) -o $@ $^
+
 test_list: $(BUILD_BIN_DIR)/test_list
 $(BUILD_BIN_DIR)/test_list: $(TEST_DIR)/test_list.c $(BUILD_OBJ_DIR)/list.o $(BUILD_OBJ_DIR)/memmgr.o | $(BUILD_BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $^
 
 test_stack: $(BUILD_BIN_DIR)/test_stack
-$(BUILD_BIN_DIR)/test_stack: $(TEST_DIR)/test_stack.c $(BUILD_OBJ_DIR)/stack.o | $(BUILD_BIN_DIR)
+$(BUILD_BIN_DIR)/test_stack: $(TEST_DIR)/test_stack.c $(BUILD_OBJ_DIR)/stack.o $(BUILD_OBJ_DIR)/memmgr.o | $(BUILD_BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $^
 
 test_queue: $(BUILD_BIN_DIR)/test_queue

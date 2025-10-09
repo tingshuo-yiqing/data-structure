@@ -210,6 +210,7 @@ TreeNode* invertBTree(TreeNode* root) {
 
 
 TreeNode* insertBSTnode(TreeNode* root, tree_eletype val) {
+    // https://leetcode.cn/problems/insert-into-a-binary-search-tree/description/
     if (!root)
         return createTreeNode(val);
     
@@ -277,4 +278,18 @@ TreeNode* deleteBSTnode(TreeNode* root, tree_eletype val) {
         root->right = deleteBSTnode(root->right, minNode->val);
     }
     return root;
+}
+
+
+
+bool isValidBSTdfs(TreeNode* root, long long left_val, long long right_val) {
+    if (!root) return true;
+    long long x = root->val;
+    return (left_val < x && x < right_val) && 
+            isValidBSTdfs(root->left, left_val, x) &&
+            isValidBSTdfs(root->right, x, right_val);
+}
+bool isValidBST(TreeNode* root) {
+    // https://leetcode.cn/problems/validate-binary-search-tree/
+    return isValidBSTdfs(root, LLONG_MIN, LLONG_MIN);
 }

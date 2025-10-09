@@ -153,6 +153,15 @@ TreeNode* getBSTmaxNode(TreeNode* root);
 
 TreeNode* deleteBSTnode(TreeNode* root, tree_eletype val);
 
+/**
+ * @brief 
+ */
+bool isValidBSTdfs(TreeNode* root, long long left_val, long long right_val);
+/**
+ * 
+ */
+bool isValidBST(TreeNode* root);
+
 #ifdef __cplusplus
 }
 #endif
