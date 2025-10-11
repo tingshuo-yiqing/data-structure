@@ -1,7 +1,7 @@
 #include "list.h"
 #include "memmgr.h"
 
-Node* createNode(int val) {
+Node* createNode(list_eletype val) {
     Node* new_node = XMALLOC(sizeof(Node));
     new_node->data = val;
     new_node->next = NULL;
@@ -9,93 +9,92 @@ Node* createNode(int val) {
 }
 
 
-void freeList(Node* head) {
-    Node* cur = head;
+LinkedList* initLinkedList() {
+    LinkedList* ret = XMALLOC(sizeof(LinkedList));
+    ret->head = ret->tail = NULL;
+    ret->length = 0;
+    return ret;
+}
+
+
+void freeList(LinkedList* list) {
+    Node* cur = list->head;
     while (cur) {
         Node* temp = cur;
         cur = cur->next;
         XFREE(temp);
     }
+    XFREE(list);
 }
 
 
-int getListSize(Node* head) {
-    int ret = 0;
-    Node* cur = head;
-    while (cur) {
-        ret++;
-        cur = cur->next;
-    }
-    return ret;
+int getListSize(LinkedList* list) {
+    return list->length;
 }
 
 
-Node* getTailNode(Node* head) {
-    if (!head) return NULL;
-    Node* ret = head;
-    while (ret->next) {
-        ret = ret->next;
-    }
-    return ret;
+Node* getTailNode(LinkedList* list) {
+    return list->tail;
 }
 
 
-// 传入头结点的指针，支持直接在函数内部修改头指针而不是作为返回值
-void insertHeadNode(Node** head, int val) {
+void insertHeadNode(LinkedList* list, list_eletype val) {
     Node* new_node = createNode(val);
-    if (new_node == NULL) {
-        return;
+    if (!list->head) {
+        list->head = new_node;
+        list->tail = new_node;
+    } else {
+        new_node->next = list->head;
+        list->head = new_node;
     }
-    new_node->next = *head;
-    *head = new_node;
+    list->length++;
 }
 
 
-void insertTailNode(Node** head, int val) {
+void insertTailNode(LinkedList* list, list_eletype val) {
     Node* new_node = createNode(val);
-    if (*head == NULL) {
-        *head = new_node;
-        return;
+    if (!list->tail) {
+        list->tail = new_node;
+        list->head = new_node;
+    } else {
+        list->tail->next = new_node;
+        list->tail = new_node;
     }
-    Node* tail = getTailNode(*head);
-    tail->next = new_node;
+    list->length++;
 }
 
 
-// 传入头结点的指针，返回bool判断有没有插入成功
-bool insertIndexNode(Node** head, int index, int val) {
-    if (index < 0 || index > getListSize(*head)) {
+// 返回bool判断有没有插入成功
+bool insertIndexNode(LinkedList* list, int index, list_eletype val) {
+    if (index < 0 || index > list->length) {
         return false;
     }
     if (index == 0) {
-        insertHeadNode(head, val);
+        insertHeadNode(list, val);
         return true;
     }
-    Node* cur = *head;
+    Node* cur = list->head;
     for (int i = 0; i < index - 1; ++i) {
         cur = cur->next;
     }
     Node* new_node = createNode(val);
-    if (new_node == NULL) {
-        return false;
-    }
     new_node->next = cur->next;
     cur->next = new_node;
     return true;
 }
 
 
-bool deleteIndexNode(Node** head, int index) {
-    if (index < 0 || index >= getListSize(*head)) {  // 可以尾插不能尾删
+bool deleteIndexNode(LinkedList* list, int index) {
+    if (index < 0 || index >= getListSize(list)) {  // 可以尾插不能尾删
         return false;
     }
     if (index == 0) {
-        Node* temp = *head;
-        *head = (*head)->next;
+        Node* temp = list->head;
+        list->head = list->head->next;
         XFREE(temp);
         return true;
     }
-    Node* cur = *head;
+    Node* cur = list->head;
     for (int i = 0; i < index - 1; ++i) {
         cur = cur->next;
     }
@@ -106,8 +105,8 @@ bool deleteIndexNode(Node** head, int index) {
 }
 
 
-Node* findNode(Node** head, int val) {
-    Node* cur = *head;
+Node* findNode(LinkedList* list, list_eletype val) {
+    Node* cur = list->head;
     while (cur) {
         if (cur->data == val) {
             return cur;
@@ -118,19 +117,19 @@ Node* findNode(Node** head, int val) {
 }
 
 
-Node* copyList(Node* head) {
-    Node* new_head = NULL;
-    Node* cur = head;
+LinkedList* copyList(LinkedList* list) {
+    LinkedList* ret = initLinkedList();
+    Node* cur = list->head;
     while (cur) {
-        insertTailNode(&new_head, cur->data);
+        insertTailNode(ret, cur->data);
         cur = cur->next;
     }
-    return new_head;
+    return ret;
 }
 
 
-void printList(Node* head) {
-    Node* cur = head;
+void printList(LinkedList* list) {
+    Node* cur = list->head;
     while (cur) {
         printf("%d->", cur->data);
         cur = cur->next;
@@ -139,18 +138,19 @@ void printList(Node* head) {
 }
 
 
-Node* arrayToList(int arr[], int n) {
-    Node* head = NULL;
-    for (int i = 0; i < n; i++) {
-        insertTailNode(&head, arr[i]);
+LinkedList* arrayToList(int arr[], int arrSize) {
+    LinkedList* ret = initLinkedList();
+    for (int i = 0; i < arrSize; i++) {
+        insertTailNode(ret, arr[i]);
     }
-    return head;
+    return ret;
 }
 
 
-
-void reverseList(Node** head) {
-    Node* cur = *head;
+void reverseList(LinkedList* list) {
+    // The situation where no reversal is required
+    if (!list || !list->head || !list->head->next) return;
+    Node* cur = list->head;
     Node* pre = NULL;
     while (cur) {
         Node* nxt = cur->next;
@@ -158,15 +158,21 @@ void reverseList(Node** head) {
         pre = cur;
         cur = nxt;
     }
-    *head = pre;
+    Node* temp = list->head;
+    list->head = list->tail;
+    list->tail = temp;
 }
 
 
-// 使用虚拟头结点辅助合并两个有序链表
-Node* mergeSortedList(Node* left, Node* right) {
+
+LinkedList* mergeSortedList(LinkedList* p, LinkedList* q) {
+    LinkedList* result = initLinkedList();
     Node dummy;
     Node* tail = &dummy;
     dummy.next = NULL;
+
+    Node* left = p->head;
+    Node* right = q->head;
 
     while (left && right) {
         if (left->data < right->data) {
@@ -177,30 +183,90 @@ Node* mergeSortedList(Node* left, Node* right) {
             right = right->next;
         }
         tail = tail->next;
+        result->length++;
     }
 
     tail->next = (left ? left : right);
 
-    return dummy.next;
+    // Update the tail pointer
+    while (tail->next) {
+        tail = tail->next;
+        result->length++;
+    }
+
+    result->head = dummy.next;
+    result->tail = tail;
+
+    return result;
 }
 
 
-// 归并排序链表
-Node* sortList(Node* head) {
-    if (!head || !head->next) {
-        return head;
+LinkedList* sortList(LinkedList* list) {
+    if (!list || !list->head || !list->head->next) {
+        return list;
     }
-    // 寻找链表中间节点
-    Node* slow = head;
-    Node* fast = head->next;
+
+    Node* slow = list->head;
+    Node* fast = list->head->next;
     while (fast && fast->next) {
         slow = slow->next;
         fast = fast->next->next;
     }
-    // 将链表一份为二
+
     Node* second = slow->next;
     slow->next = NULL;
-    Node* first = head;
-    // 递归合并
-    return mergeSortedList(sortList(first), sortList(second));
+
+    LinkedList* left = initLinkedList();
+    left->head = list->head;
+    left->tail = slow;
+    left->length = 0;
+    Node* temp = left->head;
+    while (temp) {
+        left->length++;
+        temp = temp->next;
+    }
+
+    LinkedList* right = initLinkedList();
+    right->head = second;
+    right->tail = list->tail;
+    right->length = 0;
+    temp = right->head;
+    while (temp) {
+        right->length++;
+        temp = temp->next;
+    }
+
+    LinkedList* sortedLeft = sortList(left);
+    LinkedList* sortedRight = sortList(right);
+
+    return mergeSortedList(sortedLeft, sortedRight);
+}
+
+
+bool isCycleList(LinkedList* list) {
+    Node* fast = list->head;
+    Node* slow = list->head;
+    while (fast && fast->next) {
+        fast = fast->next->next;
+        slow = slow->next;
+        if (fast == slow) return true;
+    }
+    return false;
+}
+
+
+void rotateRightList(LinkedList* list, int k) {
+    if (!list || !list->head) return;
+    k %= list->length;
+    
+    Node* knode = list->head;
+    for (int i = 0; i < list->length - k - 1; ++i) {
+        knode = knode->next;
+    }
+
+    // rotate
+    list->tail->next = list->head;
+    list->head = knode->next;
+    knode->next = NULL;
+    list->tail = knode;
 }

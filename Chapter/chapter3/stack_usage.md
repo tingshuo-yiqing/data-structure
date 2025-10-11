@@ -42,3 +42,41 @@ int evalPostfix(char** token, int len) {
 
 
 
+## 模拟递归
+
+用栈模拟递归会比系统递归快很多
+
+### 汉诺塔问题的非递归实现
+
+汉诺塔的递归比较简单：
+```c
+void hanoi(int n, char from, char mid, char to) {
+    // 递归边界
+    if (n == 1) {
+        printf("%c->%c\n", from, to);
+        return;
+    }
+    hanoi(n-1, from, to, mid);
+    printf("%c->%c\n", from, to);
+    hanoi(n-1, mid, from, to);
+}
+```
+非递归的话要定义一个模拟函数的栈帧`Frame`结构体，储存函数的信息，比如：
+```c
+typedef struct {
+    // 储存函数的参数信息
+    int n;
+    char from, mid, to; 
+    int state; // // 添加状态标记：0-初始，1-完成第一步递归，2-完成输出
+} Frame;
+```
+#### 步骤
+1. 先手写一个简单的可以`push`和`pop`的栈，一个数组存储`Frame`
+2. 如何根据递归式子模拟压栈和弹栈
+3. 关键是理解递归顺序
+
+```c
+void hanoi(int n) {
+
+}
+```

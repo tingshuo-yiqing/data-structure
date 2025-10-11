@@ -14,6 +14,7 @@ typedef struct TreeNode {
     tree_eletype val;
     struct TreeNode* left;
     struct TreeNode* right;
+    int height;  // 树的高度
 } TreeNode;
 
 /**
@@ -115,7 +116,9 @@ int maxDepthBTree(TreeNode* root);
  */
 int minDepthBTree(TreeNode* root);
 
-
+/**
+ * 
+ */
 TreeNode* invertBTree(TreeNode* root);
 
 
@@ -129,7 +132,9 @@ TreeNode* invertBTree(TreeNode* root);
  */
 TreeNode* insertBSTnode(TreeNode* root, tree_eletype val);
 
-
+/**
+ * 
+ */
 TreeNode* searchBSTval(TreeNode* root, tree_eletype val);
 
 
@@ -150,7 +155,9 @@ TreeNode* getBSTminNode(TreeNode* root);
  */
 TreeNode* getBSTmaxNode(TreeNode* root);
 
-
+/**
+ * 
+ */
 TreeNode* deleteBSTnode(TreeNode* root, tree_eletype val);
 
 /**
@@ -161,6 +168,35 @@ bool isValidBSTdfs(TreeNode* root, long long left_val, long long right_val);
  * 
  */
 bool isValidBST(TreeNode* root);
+
+
+
+/* AVL Tree */
+
+int getTreeHeight(TreeNode* root);
+
+int getTreeBalance(TreeNode* root);
+
+void updateTreeHeight(TreeNode* root);
+
+TreeNode* leftRotate(TreeNode* root);
+
+TreeNode* rightRotate(TreeNode* root);
+
+TreeNode* insertAVLnode(TreeNode* root, tree_eletype key);
+
+
+int isValidAVLdfs(TreeNode* root);
+bool isValidAVL(TreeNode* root);
+
+
+/**
+ * @brief Delete a node from an AVL tree
+ * @param root Root of the tree
+ * @param key Value to delete
+ * @return New root after deletion
+ */
+TreeNode* deleteAVLnode(TreeNode* root, tree_eletype key);
 
 #ifdef __cplusplus
 }

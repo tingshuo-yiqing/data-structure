@@ -41,5 +41,9 @@ int main() {
         }
     }
 
+    // 释放所有分配的内存
+    freeQueue(que);
+    freeCQueue(cque);
+
     return 0;
 }

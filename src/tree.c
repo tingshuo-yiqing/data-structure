@@ -7,6 +7,7 @@ TreeNode* createTreeNode(tree_eletype val) {
     ret->left = NULL;
     ret->right = NULL;
     ret->val = val;
+    ret->height = 1;
     return ret;
 }
 
@@ -281,7 +282,6 @@ TreeNode* deleteBSTnode(TreeNode* root, tree_eletype val) {
 }
 
 
-
 bool isValidBSTdfs(TreeNode* root, long long left_val, long long right_val) {
     if (!root) return true;
     long long x = root->val;
@@ -292,4 +292,148 @@ bool isValidBSTdfs(TreeNode* root, long long left_val, long long right_val) {
 bool isValidBST(TreeNode* root) {
     // https://leetcode.cn/problems/validate-binary-search-tree/
     return isValidBSTdfs(root, LLONG_MIN, LLONG_MIN);
+}
+
+
+/* AVL Tree */
+
+int getTreeHeight(TreeNode* root) {
+    return root ? root->height : 0;
+}
+
+
+int getTreeBalance(TreeNode* root) {
+    if (!root) return 0;
+    return getTreeHeight(root->left) - getTreeHeight(root->right);
+}
+
+
+void updateTreeHeight(TreeNode* root) {
+    if (root)
+        root->height = MAX(getTreeHeight(root->left), getTreeHeight(root->right)) + 1;
+}
+
+
+TreeNode* leftRotate(TreeNode* root) {
+    TreeNode* new_root = root->right;
+    TreeNode* T2 = new_root->left;
+
+    new_root->left = root;
+    root->right = T2;
+
+    updateTreeHeight(root);
+    updateTreeHeight(new_root);
+    return new_root;
+}
+
+
+TreeNode* rightRotate(TreeNode* root) {
+    TreeNode* new_root = root->left;
+    TreeNode* T2 = new_root->right;
+
+    new_root->right = root;
+    root->left = T2;
+
+    updateTreeHeight(root);
+    updateTreeHeight(new_root);
+    return new_root;
+}
+
+
+TreeNode* insertAVLnode(TreeNode* root, tree_eletype key) {
+    // 1.Perform standard BST insertion.
+    if (!root)
+        return createTreeNode(key);
+    if (key < root->val)
+        root->left = insertAVLnode(root->left, key);
+    else if (key > root->val) 
+        root->right = insertAVLnode(root->right, key);
+    else
+        return root;  // no duplicates
+    
+    // 2.Update the current node height
+    updateTreeHeight(root);
+    // 3.Check for balance
+    int balance = getTreeBalance(root);
+
+    // Based on the condition of the position of the inserted key
+    // LL
+    if (balance > 1 && key < root->left->val) 
+        return rightRotate(root);
+    // LR
+    if (balance > 1 && key > root->left->val) {
+        root->left = leftRotate(root->left);
+        return rightRotate(root);
+    }
+    // RR
+    if (balance < -1 && key > root->right->val)
+        return leftRotate(root);
+    // RL
+    if (balance < -1 && key < root->right->val) {
+        root->right = rightRotate(root->right);
+        return leftRotate(root);
+    }
+    return root;
+}
+
+
+int isValidAVLdfs(TreeNode* root) {
+    if (!root) return 0;
+    int left = isValidAVLdfs(root->left);
+    int right = isValidAVLdfs(root->right);
+    if (left == -1 || right == -1 || ABS(left - right) > 1) 
+        return -1;
+    return MAX(left, right) + 1;
+}
+bool isValidAVL(TreeNode* root) {
+    // https://leetcode.cn/problems/balanced-binary-tree/description/
+    return isValidAVLdfs(root) != -1;
+}
+
+
+TreeNode* deleteAVLnode(TreeNode* root, tree_eletype key) {
+    // Perform standard BST deletion
+    if (!root) return NULL;
+    if (key < root->val) 
+        root->left = deleteAVLnode(root->left, key);
+    else if (key > root->val) 
+        root->right = deleteAVLnode(root->right, key);
+    else {
+        if (!root->left) {
+            TreeNode* r = root->right;
+            XFREE(root);
+            return r;
+        }
+        if (!root->right) {
+            TreeNode* l = root->left;
+            XFREE(root);
+            return l;
+        }
+        TreeNode* minNode = getBSTminNode(root->right);
+        root->val = minNode->val;
+        root->right = deleteAVLnode(root->right, minNode->val);
+    }
+
+    updateTreeHeight(root);
+    int balance = getTreeBalance(root);
+
+    int leftBalance = getTreeBalance(root->left);
+    int rightBalance = getTreeBalance(root->right);
+    // LL
+    if (balance > 1 && leftBalance >= 0) 
+        return rightRotate(root);
+    // LR
+    if (balance > 1 && leftBalance < 0) {
+        root->left = leftRotate(root->left);
+        return rightRotate(root);
+    }
+    // RR
+    if (balance < -1 && rightBalance <= 0)
+        return leftRotate(root);
+    // RL
+    if (balance < -1 && rightBalance > 0) {
+        root->right = rightRotate(root->right);
+        return leftRotate(root);
+    }
+    return root;
 }

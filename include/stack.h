@@ -7,7 +7,13 @@ extern "C" {
 
 #include <stdbool.h>
 
-#define stack_eletype int
+// #define stack_eletype Frame
+#define stack_eletype char
+
+// typedef struct {
+
+// } Frame;
+
 
 typedef struct stack {
     stack_eletype* data;

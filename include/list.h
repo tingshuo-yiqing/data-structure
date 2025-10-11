@@ -6,45 +6,58 @@
 extern "C" {
 #endif
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <stdbool.h>
+
+#define list_eletype int
+
 
 // 节点定义
 typedef struct Node {
-    int data;
+    list_eletype data;
     struct Node* next;
 } Node;
 
-Node* createNode(int val);
+typedef struct LinkedList {
+    Node* head;
+    Node* tail;
+    int length;
+} LinkedList;
 
-void freeList(Node* head);
+Node* createNode(list_eletype val);
 
-int getListSize(Node* head);
+LinkedList* initLinkedList();
 
-Node* getTailNode(Node* head);
+void freeList(LinkedList* list);
 
-void insertHeadNode(Node** head, int val);
+int getListSize(LinkedList* list);
 
-void insertTailNode(Node** head, int val);
+Node* getTailNode(LinkedList* list);
 
-bool insertIndexNode(Node** head, int index, int val);
+void insertHeadNode(LinkedList* list, list_eletype val);
 
-bool deleteIndexNode(Node** head, int index);
+void insertTailNode(LinkedList* list, list_eletype val);
 
-Node* findNode(Node** head, int val);
+bool insertIndexNode(LinkedList* list, int index, list_eletype val);
 
-Node* copyList(Node* head);
+bool deleteIndexNode(LinkedList* list, int index);
 
-void printList(Node* head);
+Node* findNode(LinkedList* list, list_eletype val);
 
-Node* arrayToList(int arr[], int n);
+LinkedList* copyList(LinkedList* list);
 
-void reverseList(Node** head);
+void printList(LinkedList* list);
 
-Node* mergeSortedList(Node* left, Node* right);
+LinkedList* arrayToList(int arr[], int arrSize);
 
-Node* sortList(Node* head);
+void reverseList(LinkedList* list);
+
+LinkedList* mergeSortedList(LinkedList* p, LinkedList* q);
+
+LinkedList* sortList(LinkedList* list);
+
+bool isCycleList(LinkedList* list);
+
+void rotateRightList(LinkedList* list, int k);
 
 #ifdef __cplusplus
 }
