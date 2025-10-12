@@ -11,6 +11,17 @@ void* xmalloc_debug(size_t size, const char* file, int line) {
 }
 
 
+void* xrealloc_debug(void* ptr, size_t size, const char* file, int line) {
+    void* new_ptr = realloc(ptr, size);
+    if (new_ptr == NULL) {
+        fprintf(stderr, "[%s:%d] realloc(%p, %zu) failed\n", file, line, ptr, size);
+        exit(EXIT_FAILURE);
+    }
+    // fprintf(stderr, "[%s:%d] Reallocated %zu bytes: %p -> %p\n", file, line, size, ptr, new_ptr);
+    return new_ptr;
+}
+
+
 void xfree_debug(void* ptr, const char* file, int line) {
     if (!ptr) {
         fprintf(stderr, "[%s:%d] Warning: attempt to free NULL pointer\n", file, line);
