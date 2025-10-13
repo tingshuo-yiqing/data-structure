@@ -23,15 +23,9 @@ typedef struct LinkedList {
     int length;
 } LinkedList;
 
-Node* createNode(list_eletype val);
-
 LinkedList* initLinkedList();
 
 void freeList(LinkedList* list);
-
-int getListSize(LinkedList* list);
-
-Node* getTailNode(LinkedList* list);
 
 void insertHeadNode(LinkedList* list, list_eletype val);
 

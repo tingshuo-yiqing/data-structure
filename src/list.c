@@ -1,7 +1,12 @@
 #include "list.h"
 #include "memmgr.h"
 
-Node* createNode(list_eletype val) {
+/* Helper function declarations */
+static Node* createNode(list_eletype val);
+
+/* Public interfaces */
+
+static inline Node* createNode(list_eletype val) {
     Node* new_node = XMALLOC(sizeof(Node));
     new_node->data = val;
     new_node->next = NULL;
@@ -28,12 +33,12 @@ void freeList(LinkedList* list) {
 }
 
 
-int getListSize(LinkedList* list) {
+static inline int getListSize(LinkedList* list) {
     return list->length;
 }
 
 
-Node* getTailNode(LinkedList* list) {
+static inline Node* getTailNode(LinkedList* list) {
     return list->tail;
 }
 

@@ -146,9 +146,9 @@ int main() {
     
     // 验证删除后仍然是AVL树
     if (isValidAVL(avl_delete_root)) 
-        printf("删除操作后仍然是一棵AVL树\n");
+    printf("删除操作后仍然是一棵AVL树\n");
     else   
-        printf("删除操作后不是一棵AVL树\n");
+    printf("删除操作后不是一棵AVL树\n");
     
     // 测试删除不存在的节点
     printf("删除不存在的节点100: ");
@@ -170,11 +170,11 @@ int main() {
     
     // 验证最终状态
     if (avl_delete_root && isValidAVL(avl_delete_root)) 
-        printf("最终状态仍然是一棵AVL树\n");
+    printf("最终状态仍然是一棵AVL树\n");
     else if (avl_delete_root)   
-        printf("最终状态不是一棵AVL树\n");
+    printf("最终状态不是一棵AVL树\n");
     else
-        printf("树为空\n");
+    printf("树为空\n");
 
     
     // 释放所有分配的内存

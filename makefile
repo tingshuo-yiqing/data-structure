@@ -97,6 +97,10 @@ test_heap: $(BUILD_BIN_DIR)/test_heap
 $(BUILD_BIN_DIR)/test_heap: $(TEST_DIR)/test_heap.c $(BUILD_OBJ_DIR)/heap.o $(BUILD_OBJ_DIR)/memmgr.o | $(BUILD_BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $^
 
+test_huffman: $(BUILD_BIN_DIR)/test_huffman
+$(BUILD_BIN_DIR)/test_huffman: $(TEST_DIR)/test_huffman.c $(BUILD_OBJ_DIR)/huffman.o $(BUILD_OBJ_DIR)/memmgr.o | $(BUILD_BIN_DIR)
+	$(CC) $(CFLAGS) -o $@ $^
+
 test_myfunction: $(BUILD_BIN_DIR)/test_myfunction
 $(BUILD_BIN_DIR)/test_myfunction: $(TEST_DIR)/test_myfunction.c $(BUILD_OBJ_DIR)/myfunction.o | $(BUILD_BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $^

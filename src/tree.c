@@ -150,23 +150,6 @@ TreeNode* deserializeBTree(tree_eletype* data, size_t dataSize) {
 }
 
 
-
-TreeNode* getBTreeRightChild(TreeNode* root, TreeNode* e) {
-    if (!root) return NULL;
-    if (e->right) 
-        return e->right;
-    return NULL;
-}
-
-
-TreeNode* getBTreeLeftChild(TreeNode* root, TreeNode* e) {
-    if (!root) return NULL;
-    if (e->left) 
-        return e->left;
-    return NULL;
-}
-
-
 int maxDepthBTree(TreeNode* root) {
     // https://leetcode.cn/problems/maximum-depth-of-binary-tree/
     if (!root) return 0;
@@ -295,26 +278,26 @@ bool isValidBST(TreeNode* root) {
 }
 
 
-/* AVL Tree */
+/* AVL API */
 
-int getTreeHeight(TreeNode* root) {
+static int getTreeHeight(TreeNode* root) {
     return root ? root->height : 0;
 }
 
 
-int getTreeBalance(TreeNode* root) {
+static int getTreeBalance(TreeNode* root) {
     if (!root) return 0;
     return getTreeHeight(root->left) - getTreeHeight(root->right);
 }
 
 
-void updateTreeHeight(TreeNode* root) {
+static void updateTreeHeight(TreeNode* root) {
     if (root)
         root->height = MAX(getTreeHeight(root->left), getTreeHeight(root->right)) + 1;
 }
 
 
-TreeNode* leftRotate(TreeNode* root) {
+static TreeNode* leftRotate(TreeNode* root) {
     TreeNode* new_root = root->right;
     TreeNode* T2 = new_root->left;
 
@@ -327,7 +310,7 @@ TreeNode* leftRotate(TreeNode* root) {
 }
 
 
-TreeNode* rightRotate(TreeNode* root) {
+static TreeNode* rightRotate(TreeNode* root) {
     TreeNode* new_root = root->left;
     TreeNode* T2 = new_root->right;
 

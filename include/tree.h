@@ -95,15 +95,6 @@ TreeNode* deserializeBTree(tree_eletype* data, size_t dataSize);
 
 
 /**
- * @brief 
- */
-TreeNode* getBTreeRightChild(TreeNode* root, TreeNode* e);
-
-
-TreeNode* getBTreeLeftChild(TreeNode* root, TreeNode* e);
-
-
-/**
  * @brief Find the maximum depth of a binary tree
  * @param root Root node
  */
@@ -172,16 +163,6 @@ bool isValidBST(TreeNode* root);
 
 
 /* AVL Tree */
-
-int getTreeHeight(TreeNode* root);
-
-int getTreeBalance(TreeNode* root);
-
-void updateTreeHeight(TreeNode* root);
-
-TreeNode* leftRotate(TreeNode* root);
-
-TreeNode* rightRotate(TreeNode* root);
 
 TreeNode* insertAVLnode(TreeNode* root, tree_eletype key);
 
