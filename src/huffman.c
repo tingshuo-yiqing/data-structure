@@ -196,6 +196,7 @@ char* huffmanEncode(const char* text, HuffmanCode table[], int tableSize) {
     for (const unsigned char* p = (const unsigned char*)text; *p; ++p) {
         char* code = encodeMap[*p];
         if (code)
+            // 使用strcat函数时确保被拼接的字符串足够大，避免溢出
             strcat(encoded, code);
         else
             fprintf(stderr, "[Warning] Unrecognized char: %c\n", *p);

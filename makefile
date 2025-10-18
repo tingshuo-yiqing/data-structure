@@ -86,7 +86,7 @@ $(BUILD_BIN_DIR)/test_stack: $(TEST_DIR)/test_stack.c $(BUILD_OBJ_DIR)/stack.o $
 	$(CC) $(CFLAGS) -o $@ $^
 
 test_queue: $(BUILD_BIN_DIR)/test_queue
-$(BUILD_BIN_DIR)/test_queue: $(TEST_DIR)/test_queue.c $(BUILD_OBJ_DIR)/queue.o | $(BUILD_BIN_DIR)
+$(BUILD_BIN_DIR)/test_queue: $(TEST_DIR)/test_queue.c $(BUILD_OBJ_DIR)/queue.o $(BUILD_OBJ_DIR)/memmgr.o | $(BUILD_BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $^
 
 test_tree: $(BUILD_BIN_DIR)/test_tree

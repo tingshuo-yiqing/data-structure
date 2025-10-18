@@ -1,124 +1,123 @@
 #include "queue.h"
+#include "memmgr.h"
 
-#define CAPACITY 200010
-
-queue* initQueue() {
-    queue* ret = (queue*)malloc(sizeof(queue));
-    ret->data = (queue_eletype*)malloc(sizeof(queue_eletype) * CAPACITY);
+queue* initQueue(int capacity) {
+    queue* ret = XMALLOC(sizeof(queue));
+    ret->data = XMALLOC(sizeof(queue_eletype) * capacity);
     ret->left = 0;
     ret->right = 0;
     return ret;
 }
 
 
-void freeQueue(queue* que) {
-    free(que->data);
-    que->data = NULL;
-    free(que);
-    que = NULL;
+void freeQueue(queue* q) {
+    XFREE(q->data);
+    q->data = NULL;
+    XFREE(q);
+    q = NULL;
 }
 
 
-int getQueueSize(queue* que) {
-    return que->right - que->left;
+int getQueueSize(queue* q) {
+    return q->right - q->left;
 }
 
 
-bool isQueueEmpty(queue* que) {
-    return que->left == que->right;
+bool isQueueEmpty(queue* q) {
+    return q->left == q->right;
 }
 
 
-void pushQueue(queue* que, queue_eletype val) {
-    que->data[que->right++] = val;
-}
-
-queue_eletype popQueue(queue* que) {
-    return que->data[que->left++];
+void pushQueue(queue* q, queue_eletype val) {
+    q->data[q->right++] = val;
 }
 
 
-queue_eletype headQueue(queue* que) {
-    return que->data[que->left];
+queue_eletype popQueue(queue* q) {
+    return q->data[q->left++];
 }
 
 
-queue_eletype tailQueue(queue* que) {
-    return que->data[que->right - 1];
+queue_eletype headQueue(queue* q) {
+    return q->data[q->left];
+}
+
+
+queue_eletype tailQueue(queue* q) {
+    return q->data[q->right - 1];
 }
 
 //todo 循环队列设计
 // https://leetcode.cn/problems/design-circular-queue/description/
 
-cqueue* initCQueue(int k) {
-    if (k <= 0) return NULL;
-    cqueue* ret = (cqueue*)malloc(sizeof(cqueue));
-    ret->data = (cqueue_eletype*)malloc(sizeof(cqueue_eletype) * k);
+cqueue* initCQueue(int capacity) {
+    if (capacity <= 0) return NULL;
+    cqueue* ret = XMALLOC(sizeof(cqueue));
+    ret->data = XMALLOC(sizeof(cqueue_eletype) * capacity);
     ret->left = 0;
     ret->right = 0;
-    ret->size = 0;
-    ret->limit = k;
+    ret->capacity = capacity;
     return ret;
 }
 
 
-void freeCQueue(cqueue* cque) {
-    free(cque->data);
-    cque->data = NULL;
-    free(cque);
-    cque = NULL;
+void freeCQueue(cqueue* cq) {
+    XFREE(cq->data);
+    cq->data = NULL;
+    XFREE(cq);
+    cq = NULL;
 }
 
 
-int getCQueueSize(cqueue* cque) {
-    return cque->size;
+int getCQueueSize(cqueue* cq) {
+    return (cq->right - cq->left + cq->capacity) % cq->capacity;
 }
 
 
-bool isCQueueEmpty(cqueue* cque) {
-    return cque->size == 0;
+bool isCQueueEmpty(cqueue* cq) {
+    return cq->left == cq->right;
 }
 
 
-bool isCQueueFull(cqueue* cque) {
-    return cque->size == cque->limit;
+bool isCQueueFull(cqueue* cq) {
+    return (cq->right + 1) % cq->capacity == cq->left;
 }
 
 
-bool enCQueue(cqueue* cque, cqueue_eletype val) {
-    if (isCQueueFull(cque)) return false;
+bool pushCQueue(cqueue* cq, cqueue_eletype val) {
+    if (isCQueueFull(cq)) return false;
     else {
-        cque->data[cque->right] = val;
-        cque->right = (cque->right == cque->limit - 1 ? 0 : cque->right + 1);
-        cque->size++;
+        cq->data[cq->right] = val;
+        cq->right = (cq->right + 1) % cq->capacity;
         return true;
     }
 }
 
 
-bool deCQueue(cqueue* cque) {
-    if (isCQueueEmpty(cque)) return false;
+cqueue_eletype popCQueue(cqueue* cq) {
+    if (isCQueueEmpty(cq)) return false;
     else {
-        cque->left = (cque->left == cque->limit - 1 ? 0 : cque->left + 1);
-        cque->size--;
-        return true; 
+        cqueue_eletype ret = cq->data[cq->left];
+        cq->left = (cq->left + 1) % cq->capacity;
+        return ret; 
     }
 }
 
 
-cqueue_eletype getHeadCQueue(cqueue* cque) {
-    if (isCQueueEmpty(cque)) return -1;
+cqueue_eletype getHeadCQueue(cqueue* cq) {
+    if (isCQueueEmpty(cq)) return -1;
     else {
-        return cque->data[cque->left];
+        return cq->data[cq->left];
     }
 }
 
 
-cqueue_eletype getTailCQueue(cqueue* cque) {
-    if (isCQueueEmpty(cque)) return -1;
+cqueue_eletype getTailCQueue(cqueue* cq) {
+    if (isCQueueEmpty(cq)) return -1;
     //! 队尾看 right-1 的位置
     else {
-        int last = (cque->right == 0 ? cque->limit - 1 : cque->right - 1);
-        return cque->data[last];
+        int last = (cq->right - 1 + cq->capacity) % cq->capacity;
+        return cq->data[last];
     }
 }
+

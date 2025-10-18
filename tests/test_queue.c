@@ -1,7 +1,8 @@
 #include "queue.h"
+#include<stdio.h>
 
 int main() {
-    queue* que = initQueue();
+    queue* que = initQueue(1000);
 
     printf("======普通队列=====\n\n");
     if (isQueueEmpty(que)) {
@@ -36,7 +37,7 @@ int main() {
         if (isCQueueFull(cque)) {
             printf("队列已满\n");
         } else {
-            enCQueue(cque, test[i]);
+            pushCQueue(cque, test[i]);
             printf("成功插入%d\n", test[i]);
         }
     }

@@ -25,7 +25,7 @@ typedef struct stack {
  * @brief Initialize a stack with default capacity
  * @return Pointer to the initialized stack
  */
-stack* initStack();
+stack* initStack(int capacity);
 
 /**
  * @brief Free the stack and its data
@@ -73,6 +73,15 @@ stack_eletype popStack(stack* st);
  * @param st Stack to clear
  */
 void clearStack(stack* st);
+
+
+int evalRPN(char** tokens, int tokenSize);
+
+char* postfixToInfix(char* expr);
+
+char* infixToPostfix(char* expr);
+
+int evalInfix(char* expr);
 
 #ifdef __cplusplus
 }

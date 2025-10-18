@@ -5,13 +5,9 @@
 extern "C" {
 #endif
 
-#include<stdlib.h>
 #include<stdbool.h>
-#include<string.h>
-#include <limits.h>
 
-typedef struct TreeNode TreeNode;  // 前向声明
-#define queue_eletype TreeNode*
+#define queue_eletype int
 
 typedef struct queue {
     queue_eletype* data;
@@ -23,7 +19,7 @@ typedef struct queue {
  * @brief Initialize a queue
  * @return Initialized queue pointer
  */
-queue* initQueue();
+queue* initQueue(int capacity);
 
 /**
  * @brief Free the memory occupied by the queue
@@ -80,16 +76,15 @@ typedef struct cqueue {
     cqueue_eletype* data;
     int left;
     int right;
-    int size;
-    int limit;
+    int capacity;
 } cqueue;
 
 /**
  * @brief Initialize a circular queue with fixed size
- * @param k Capacity of the circular queue
+ * @param  Capacity of the circular queue
  * @return Initialized circular queue pointer
  */
-cqueue* initCQueue(int k);
+cqueue* initCQueue(int capacity);
 
 /**
  * @brief Free the memory occupied by the circular queue
@@ -124,14 +119,14 @@ bool isCQueueFull(cqueue* cque);
  * @param val Element to add
  * @return true if the element was added successfully, false otherwise
  */
-bool enCQueue(cqueue* cque, cqueue_eletype val);
+bool pushCQueue(cqueue* cque, cqueue_eletype val);
 
 /**
  * @brief Remove the front element from the circular queue
  * @param cque Circular queue pointer
  * @return true if the element was removed successfully, false otherwise
  */
-bool deCQueue(cqueue* cque);
+cqueue_eletype popCQueue(cqueue* cque);
 
 /**
  * @brief Get the front element of the circular queue without removing it
